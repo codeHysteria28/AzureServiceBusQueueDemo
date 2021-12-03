@@ -68,3 +68,15 @@ Configure App Service:
 1. Deploy code into environment either from Github or by VS code extension
 2. Create system assigned identity (STATUS -> ON)
 3. Once KeyVault is ready create reference for the SB queue connection string and Queue name in app configuration pane
+
+# Examples of Resource Group
+![example](https://user-images.githubusercontent.com/46035047/144589324-002b9f6f-ec81-42a3-84c0-5061d85ef94f.png)
+
+# Example of Azure Function
+![fn](https://user-images.githubusercontent.com/46035047/144589965-9c952378-4e32-4b9f-82bf-cda9fa5c004b.png)
+
+# Example of Scaling Rules
+![scalling](https://user-images.githubusercontent.com/46035047/144590038-15007131-7c0c-40e7-91d6-787359728eb3.png)
+
+# Example of CosmosDB stored documents
+![db](https://user-images.githubusercontent.com/46035047/144590077-a7359ba3-95f4-48a4-a85c-533d22df0c40.png)
