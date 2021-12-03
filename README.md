@@ -69,7 +69,7 @@ Configure App Service:
 2. Create system assigned identity (STATUS -> ON)
 3. Once KeyVault is ready create reference for the SB queue connection string and Queue name in app configuration pane
 
-# Examples of Resource Group
+# Example of Resource Group
 ![example](https://user-images.githubusercontent.com/46035047/144589324-002b9f6f-ec81-42a3-84c0-5061d85ef94f.png)
 
 # Example of Azure Function
