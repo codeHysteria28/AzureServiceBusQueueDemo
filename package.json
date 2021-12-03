@@ -1,13 +1,13 @@
 {
-  "name": "nodejs",
+  "name": "AzSbDemo",
   "version": "1.0.0",
-  "description": "",
+  "description": "Azure Service Bus demo with Azure Functions, CosmosDB, KeyVault and App Service",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node index.js"
   },
-  "author": "",
+  "author": "Branislav Buna",
   "license": "ISC",
   "dependencies": {
     "@azure/service-bus": "^7.4.0",
