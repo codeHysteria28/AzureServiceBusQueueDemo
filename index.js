@@ -69,5 +69,10 @@ app.get('/test', (req,res) => {
     res.send('succesfully received test');
 });
 
+app.post('/testpsjson', (req,res) => {
+    console.log(req.body);
+    res.send('test json received in node js');
+});
+
 // app listening on given port
 app.listen(process.env.PORT || 5000, () => console.log("Running on port " + process.env.PORT || 5000));
