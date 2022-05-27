@@ -70,7 +70,7 @@ app.get('/test', (req,res) => {
 });
 
 app.post('/testpsjson', (req,res) => {
-    console.log(req.body);
+    console.log(req);
     res.send('test json received in node js');
 });
 
