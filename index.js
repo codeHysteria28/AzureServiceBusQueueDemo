@@ -14,11 +14,6 @@ const app_insights_conn = process.env.instrument_app_insights;
 
 appInsights.setup(app_insights_conn).start();
 
-appInsights.defaultClient.addTelemetryProcessor(envelope => {
-    envelope.tags['ai.cloud.role'] = "backend";
-    envelope.tags['ai.cloud.roleInstance'] = "backend-1";
-});
-
 // send messages to the service bus queue
 const sendMessage = async msg => {
     // create a Service Bus client using the connection string to the Service Bus namespace
