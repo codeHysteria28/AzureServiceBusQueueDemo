@@ -66,7 +66,7 @@ require('dotenv').config();
 // generateMessage();
 
 app.get('/test', (req,res) => {
-    return res.send('succesfully received test');
+    res.send('succesfully received test');
 });
 
 // app listening on given port
