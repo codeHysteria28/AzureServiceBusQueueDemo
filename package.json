@@ -13,6 +13,7 @@
     "@azure/service-bus": "^7.4.0",
     "@supercharge/strings": "^1.24.0",
     "applicationinsights": "^2.3.1",
+    "body-parser": "^1.20.0",
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
     "moment": "^2.29.1"

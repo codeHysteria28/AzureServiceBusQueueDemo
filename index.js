@@ -4,7 +4,11 @@ const str = require("@supercharge/strings");
 const { ServiceBusClient } = require('@azure/service-bus');
 const moment = require('moment');
 const appInsights = require('applicationinsights');
+const bodyParser = require('body-parser');
 require('dotenv').config();
+
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 
 // connection to Azure Service Bus and app insights
 // !!! - needs to be specified in Azure Portal in App Service Configuration Settings -!!!
@@ -70,7 +74,7 @@ app.get('/test', (req,res) => {
 });
 
 app.post('/testpsjson', (req,res) => {
-    console.log(req);
+    console.log(req.body);
     res.send('test json received in node js');
 });
 
