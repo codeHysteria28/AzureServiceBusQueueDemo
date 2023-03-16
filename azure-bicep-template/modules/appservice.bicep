@@ -34,14 +34,14 @@ resource appServiceApp 'Microsoft.Web/sites@2022-03-01' = {
     serverFarmId: appServicePlan.id
     siteConfig: {
       windowsFxVersion: windowsFxVersion
-      connectionStrings: [
+      appSettings: [
         {
           name: 'service_bus_conn_string'
-          connectionString: serviceBus.outputs.serviceBusNamespaceConnectionString
+          value: serviceBus.outputs.serviceBusNamespaceConnectionString
         }
         {
           name: 'service_bus_queue_name'
-          connectionString: serviceBus.outputs.serviceBusQueueName
+          value: serviceBus.outputs.serviceBusQueueName
         }
       ]
     }
