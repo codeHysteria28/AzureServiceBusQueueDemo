@@ -65,3 +65,27 @@ resource appConfig 'Microsoft.Web/sites/config@2022-03-01' = {
     alwaysOn: true
   }
 }
+
+resource loggingConfig 'Microsoft.Web/sites/config@2022-03-01' = {
+  name: 'logs'
+  parent: appServiceApp
+  properties: {
+    applicationLogs: {
+      fileSystem: {
+        level: 'Information'
+      }
+    }
+    detailedErrorMessages: {
+      enabled: true
+    }
+    failedRequestsTracing: {
+      enabled: true
+    }
+    httpLogs: {
+      fileSystem: {
+        enabled: true
+        retentionInDays: 1
+      }
+    }
+  }
+}
