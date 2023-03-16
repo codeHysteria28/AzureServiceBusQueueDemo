@@ -3,7 +3,7 @@ const app = express();
 const str = require("@supercharge/strings");
 const { ServiceBusClient } = require('@azure/service-bus');
 const moment = require('moment');
-const appInsights = require('applicationinsights');
+// const appInsights = require('applicationinsights');
 const bodyParser = require('body-parser');
 require('dotenv').config();
 
@@ -11,12 +11,13 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 // connection to Azure Service Bus and app insights
-// !!! - needs to be specified in Azure Portal in App Service Configuration Settings -!!!
 const conn_string = process.env.service_bus_conn_string;
 const queue_name = process.env.service_bus_queue_name;
-const app_insights_conn = process.env.instrument_app_insights;
 
-appInsights.setup(app_insights_conn).start();
+// optional
+// const app_insights_conn = process.env.instrument_app_insights;
+
+// appInsights.setup(app_insights_conn).start();
 
 // send messages to the service bus queue
 const sendMessage = async msg => {
