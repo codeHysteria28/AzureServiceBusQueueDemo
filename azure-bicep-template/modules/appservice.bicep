@@ -1,22 +1,36 @@
 @description('The location into which your Azure resources should be deployed')
-param location string = resourceGroup().location
+param location string
 
 @description('The name of Azure App Service')
 param appServiceAppName string
 
+@description('Azure App Service SKU identificator')
+@allowed([
+  'B1'
+  'B2'
+  'B3'
+  'S1'
+  'S2'
+  'S3'
+])
+param appServicePlanSkuName string = 'S1'
+
 @description('framework to be used by app service')
+@allowed([
+  'node|14-lts'
+  'node|16-lts'
+  'node|18-lts'
+])
 param windowsFxVersion string = 'node|16-lts'
 
-var appServicePlanSkuName = 'S1'
+@description('Output param from service bus module, which will reference connection string to service bus')
+param serviceBusConnString string
+
+@description('Output param from service bus module, which will references service bus queue name')
+param serviceBusQueueName string
+
 var appServicePlanName = toLower('AppServicePlan-${location}-${appServiceAppName}')
 var repoUrl = 'https://github.com/codeHysteria28/AzureServiceBusQueueDemo'
-
-module serviceBus 'servicebus.bicep' = {
-  name: 'serviceBus'
-  params: {
-    location: location
-  }
-}
 
 resource appServicePlan 'Microsoft.Web/serverfarms@2022-03-01' = {
   name: appServicePlanName
@@ -37,11 +51,11 @@ resource appServiceApp 'Microsoft.Web/sites@2022-03-01' = {
       appSettings: [
         {
           name: 'service_bus_conn_string'
-          value: serviceBus.outputs.serviceBusNamespaceConnectionString
+          value: serviceBusConnString
         }
         {
           name: 'service_bus_queue_name'
-          value: serviceBus.outputs.serviceBusQueueName
+          value: serviceBusQueueName
         }
       ]
     }
