@@ -29,8 +29,35 @@ param serviceBusConnString string
 @description('Output param from service bus module, which will references service bus queue name')
 param serviceBusQueueName string
 
+@description('Name for Application Insights')
+param applicationInsightsName string = 'appi-${uniqueString(resourceGroup().id)}x'
+
+@description('Generic name for Log Analytics workspace')
+param logAnalyticsWorkspaceName string = 'log-${uniqueString(resourceGroup().id)}x'
+
 var appServicePlanName = toLower('AppServicePlan-${location}-${appServiceAppName}')
 var repoUrl = 'https://github.com/codeHysteria28/AzureServiceBusQueueDemo'
+
+resource logAnalyticsWorkspace 'Microsoft.OperationalInsights/workspaces@2022-10-01' = {
+  name: logAnalyticsWorkspaceName
+  location: location
+  properties: {
+    retentionInDays: 31
+    sku: {
+      name: 'PerGB2018'
+    }
+  }
+}
+
+resource applicationInsights 'Microsoft.Insights/components@2020-02-02' = {
+  name: applicationInsightsName
+  location: location
+  kind: 'web'
+  properties: {
+    Application_Type: 'web'
+    WorkspaceResourceId: logAnalyticsWorkspace.id
+  }
+}
 
 resource appServicePlan 'Microsoft.Web/serverfarms@2022-03-01' = {
   name: appServicePlanName
@@ -56,6 +83,10 @@ resource appServiceApp 'Microsoft.Web/sites@2022-03-01' = {
         {
           name: 'service_bus_queue_name'
           value: serviceBusQueueName
+        }
+        {
+          name: 'APPINSIGHTS_INSTRUMENTATIONKEY'
+          value: applicationInsights.properties.InstrumentationKey
         }
       ]
     }
