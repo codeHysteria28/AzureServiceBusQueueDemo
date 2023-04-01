@@ -88,6 +88,10 @@ resource appServiceApp 'Microsoft.Web/sites@2022-03-01' = {
           name: 'APPINSIGHTS_INSTRUMENTATIONKEY'
           value: applicationInsights.properties.InstrumentationKey
         }
+        {
+          name: 'app_insights_connection_string'
+          value: applicationInsights.properties.ConnectionString
+        }
       ]
     }
   }

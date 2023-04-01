@@ -10,14 +10,14 @@ require('dotenv').config();
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-// connection to Azure Service Bus and app insights
+// ! connection to Azure Service Bus and app insights
 const conn_string = process.env.service_bus_conn_string;
 const queue_name = process.env.service_bus_queue_name;
-const app_insights_conn = process.env.APPINSIGHTS_INSTRUMENTATIONKEY;
+const app_insights_conn = process.env.app_insights_connection_string;
 
 appInsights.setup(app_insights_conn).start();
 
-// send messages to the service bus queue
+// ! send messages to the service bus queue
 const sendMessage = async msg => {
     // create a Service Bus client using the connection string to the Service Bus namespace
 	const sbClient = new ServiceBusClient(conn_string);
@@ -38,7 +38,7 @@ const sendMessage = async msg => {
 	}
 }
 
-// generate random messages function
+// ! generate random messages function
 const generateMessage = () => {
     // generate random message every 2 seconds
     setInterval(() => {
@@ -65,12 +65,13 @@ const generateMessage = () => {
     }, 2000);
 }
 
-// call generate messages function
+// ! call generate messages function
 generateMessage();
 
-app.get('/test', (req,res) => {
-    res.send('succesfully received test');
-});
+// * test route * uncomment to test
+// app.get('/test', (req,res) => {
+//     res.send('succesfully received test');
+// });
 
-// app listening on given port
+// ! app listening on given port
 app.listen(process.env.PORT || 5000, () => console.log("Running on port " + process.env.PORT || 5000));
