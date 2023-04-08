@@ -12,6 +12,7 @@ What I've used ?
 
 1. Azure App Service -> NodeJS; Express based backend which will generate random messages and send them to Service Bus Queue
 2. Azure Service Bus Queue to store and distribute the messages
+3. (optional) Azure Function with Service Bus trigger binding to demonstrate 1:1 relationship as sender -> receiver, can be turned by defining parameter when deploying the bicep file eg. `az deployment group create --parameters deployFnSubStorAcc=true --template-file main.bicep`
 
 
 
