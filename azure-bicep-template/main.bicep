@@ -4,6 +4,16 @@ param location string = resourceGroup().location
 @description('The name of Azure App Service')
 param appServiceAppName string = 'wapp${uniqueString(resourceGroup().id)}x'
 
+@description('Deploy subscriber function and storage account')
+param deployFnSubStorAcc bool = false
+
+module storageAccount 'modules/storageaccount.bicep' = if(deployFnSubStorAcc) {
+  name: 'storageAccount'
+  params: {
+    location: location
+  }
+}
+
 module serviceBus 'modules/servicebus.bicep' = {
   name: 'serviceBus'
   params: {
@@ -21,5 +31,17 @@ module appServiceApp 'modules/appservice.bicep' = {
   }
   dependsOn: [
     serviceBus
+  ]
+}
+
+module functionApp 'modules/subscriberFunction.bicep' = if(deployFnSubStorAcc) {
+  name: 'functionApp'
+  params: {
+    location: location
+    storageAccountConnectionString: storageAccount.outputs.storageAccountConnectionString
+    serviceBusConnString: serviceBus.outputs.serviceBusNamespaceConnectionString
+  }
+  dependsOn: [
+    storageAccount
   ]
 }
