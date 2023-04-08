@@ -138,3 +138,5 @@ resource loggingConfig 'Microsoft.Web/sites/config@2022-03-01' = {
     }
   }
 }
+
+output appInsightsInstrumentationKey string = applicationInsights.properties.InstrumentationKey

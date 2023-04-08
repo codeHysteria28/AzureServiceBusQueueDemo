@@ -40,8 +40,12 @@ module functionApp 'modules/subscriberFunction.bicep' = if(deployFnSubStorAcc) {
     location: location
     storageAccountConnectionString: storageAccount.outputs.storageAccountConnectionString
     serviceBusConnString: serviceBus.outputs.serviceBusNamespaceConnectionString
+    serviceBusQueueName: serviceBus.outputs.serviceBusQueueName
+    APPINSIGHTS_INSTRUMENTATIONKEY: appServiceApp.outputs.appInsightsInstrumentationKey
   }
   dependsOn: [
     storageAccount
+    serviceBus
+    appServiceApp
   ]
 }

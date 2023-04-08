@@ -30,6 +30,12 @@ param storageAccountConnectionString string
 @description('Output param from service bus module, which will reference connection string to service bus')
 param serviceBusConnString string
 
+@description('The name of the queue to bind to.')
+param serviceBusQueueName string
+
+@description('The instrumentation key for the Application Insights resource.')
+param APPINSIGHTS_INSTRUMENTATIONKEY string
+
 resource functionAppPlan 'Microsoft.Web/serverfarms@2022-09-01' = {
   name: functionAppPlanName
   location: location
@@ -46,6 +52,7 @@ resource functionApp 'Microsoft.Web/sites@2022-09-01' = {
   properties: {
     serverFarmId: functionAppPlan.id
     siteConfig: {
+      alwaysOn: true
       appSettings: [
         {
           name: 'FUNCTIONS_WORKER_RUNTIME'
@@ -67,14 +74,34 @@ resource functionApp 'Microsoft.Web/sites@2022-09-01' = {
           name: 'WEBSITE_NODE_DEFAULT_VERSION'
           value: '~16'
         }
+        {
+          name: 'APPINSIGHTS_INSTRUMENTATIONKEY'
+          value: APPINSIGHTS_INSTRUMENTATIONKEY
+        }
       ]
     }
+    httpsOnly: true
   }
 }
 
-// resource ServiceBusFunctionSubscriber 'Microsoft.Web/sites/functions@2022-09-01' = {
-//   name: '${fuctionAppName}/subscriber'
-//   dependsOn: [
-//     functionApp
-//   ]
-// }
+resource ServiceBusFunctionSubscriber 'Microsoft.Web/sites/functions@2022-09-01' = {
+  parent: functionApp
+  name: 'subscriber'
+  properties: {
+    isDisabled: false
+    config: {
+      bindings: [
+        {
+          name: 'mySbMsg'
+          type: 'serviceBusTrigger'
+          direction: 'in'
+          queueName: serviceBusQueueName
+          connection: 'AzureWebJobsServiceBus'
+        }
+      ]
+    }
+    files: {
+      'subscriber.js': loadTextContent('../../subscriber.js')
+    }
+  }
+}
