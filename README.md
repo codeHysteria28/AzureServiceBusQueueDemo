@@ -23,3 +23,6 @@ The app itself is generating random messages every two seconds in following form
 `const exampleMessage = { body: { id: randomNumber, order: randomString, timestamp: current date and time }}`
 
 Then we will pass this created message object to the function that is sending the messages as parameter for later use. After the message is sent it initiate connection with service bus and try to send the message. Once message is received it is stored in Azure Service Bus Queue. 
+
+**Example of log from Subscriber function**
+![image](https://user-images.githubusercontent.com/46035047/230729304-72adef9c-5769-4247-a8bf-b7bee4ee843c.png)
